@@ -1,5 +1,6 @@
 package bdd.tek.base;
 
+import bdd.tek.utility.Constants;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 
@@ -12,8 +13,8 @@ public abstract class BaseSetUp {
         driver = new EdgeDriver();
         driver.manage().window().maximize();
         driver.get("https://dev.insurance.tekschool-students.com/");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(Constants.WAIT_IN_SECONDS));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.WAIT_IN_SECONDS));
 
     }
     // Method to close the browser

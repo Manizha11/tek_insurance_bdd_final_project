@@ -14,12 +14,12 @@ import java.time.Duration;
 public class SeleniumUtility extends BaseSetUp {
     //method to get Web diver wait(applying explicit wait)
     private WebDriverWait getWait(){
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(Constants.WAIT_IN_SECONDS));
 
     }
     //method to return WebElement and wait for visibility of it
     private WebElement waitForVisibility(By locator){
-       return getWait().until(ExpectedConditions.visibilityOfElementLocated(locator);
+       return getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
 
     }
     //Method to click on element
@@ -45,9 +45,8 @@ public class SeleniumUtility extends BaseSetUp {
         return waitForVisibility(locator).isDisplayed();
     }
     //Method to take screenshot
-    public byte[] takeScreenshot(){
+    public byte[] takeScreenshot() {
         TakesScreenshot screenshot = (TakesScreenshot) getDriver();
         return screenshot.getScreenshotAs(OutputType.BYTES);
-
     }
-}
+    }
