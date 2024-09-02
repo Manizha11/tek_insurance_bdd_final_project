@@ -1,52 +1,86 @@
 package bdd.tek.utility;
-
-import bdd.tek.base.BaseSetUp;
+import bdd.tek.base.BaseSetup;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.List;
 
-public class SeleniumUtility extends BaseSetUp {
-    //method to get Web diver wait(applying explicit wait)
-    private WebDriverWait getWait(){
+public class SeleniumUtility extends BaseSetup {
+    private static final Logger LOGGER = LogManager.getLogger(SeleniumUtility.class);
+
+    private WebDriverWait getWait() {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(Constants.WAIT_IN_SECONDS));
+    }
+
+    private WebElement waitForVisibilityOf(By locator) {
+        return getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public void clickOnElement(By locator) {
+        getWait().until(ExpectedConditions.elementToBeClickable(locator)).click();
+        LOGGER.info("Clicking on Element {}", locator);
+    }
+
+    public void sendText(By locator, String value) {
+        LOGGER.info("Clearing And Sending text {} to locator {}", value, locator);
+        waitForVisibilityOf(locator).sendKeys(value);
 
     }
-    //method to return WebElement and wait for visibility of it
-    private WebElement waitForVisibility(By locator){
-       return getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
 
+    public String getElementText(By locator) {
+        LOGGER.info("Get Element text {}", locator);
+        return waitForVisibilityOf(locator).getText();
     }
-    //Method to click on element
-    public void clickOnElement(By locator){
-    getWait().until(ExpectedConditions.elementToBeClickable(locator)).click();
 
+    public boolean isElementIsEnabled(By locator) {
+        LOGGER.info("Checking element is Enabled {}", locator);
+        return waitForVisibilityOf(locator).isEnabled();
     }
-    // Method to send text to an element
-    public void sendTextToElement(By locator,String value){
-        waitForVisibility(locator).sendKeys(value);
-    }
-    //Method to get text from an element
-    public String getElementText(By locator){
-        return waitForVisibility(locator).getText();
 
+    public boolean isElementIsDisplayed(By locator) {
+        LOGGER.info("Checking element is Displayed {}", locator);
+        return waitForVisibilityOf(locator).isDisplayed();
     }
-    // Method if element is enabled
-    public boolean isElementEnabled(By locator){
-        return waitForVisibility(locator).isEnabled();
+
+    public void selectFromDropDown(By locator, String visibleText) {
+        WebElement element = waitForVisibilityOf(locator);
+        Select select = new Select(element);
+        select.selectByVisibleText(visibleText);
     }
-    // Method to check if element is displayed
-    public boolean isElementDisplayed(By locator){
-        return waitForVisibility(locator).isDisplayed();
+
+    public static String getCurrentDate(){
+        LocalDate localDate = Instant.now().atZone(ZoneId.of("America/New_York")).toLocalDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+        return formatter.format(localDate);
     }
-    //Method to take screenshot
-    public byte[] takeScreenshot() {
-        TakesScreenshot screenshot = (TakesScreenshot) getDriver();
-        return screenshot.getScreenshotAs(OutputType.BYTES);
+
+    public static String getExpireDate(){
+        LocalDate localDate = Instant.now().atZone(ZoneId.of("America/New_York")).plusDays(1).toLocalDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+        return formatter.format(localDate);
     }
+
+    public List<WebElement> getElements(By locator){
+        return getWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
     }
+
+    public byte[] takeScreenShot(){
+        TakesScreenshot takesScreenshot = (TakesScreenshot) getDriver();
+        return takesScreenshot.getScreenshotAs(OutputType.BYTES);
+    }
+
+}
+

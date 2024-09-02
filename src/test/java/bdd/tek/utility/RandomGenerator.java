@@ -1,9 +1,9 @@
 package bdd.tek.utility;
 
 public class RandomGenerator {
-    public String  randomEmail(String firstName,String lastName){
+    public static String  randomEmail(String firstName, String prefix){
         int random =(int)(Math.random()*100);
-        return firstName + lastName + random + "@gmail.com";
+        return prefix + random + "@gmail.com";
 
     }
 }

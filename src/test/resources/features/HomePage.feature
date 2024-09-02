@@ -1,6 +1,7 @@
-
+@Regression @Smoke @HomePage.feature
 Feature: Validate home page title is exist
-  @Smoke
+
+  @Home_Page_Scenario_1
   Scenario: Validate 'TEK Insurance UI' and 'Create Primary Account' button is exist
     Given open browser and navigate to retail app
     Then validate TEK Insurance UI is exist

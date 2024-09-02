@@ -26,8 +26,9 @@ public class LoginPageSteps extends SeleniumUtility {
 
     }
     @Then("click on sign in button")
-    public void clickOnSignIButton() {
+    public void clickOnSignIButton() throws InterruptedException {
         clickOnElement(LoginPageObject.SIGN_IN_BUTTON);
+        Thread.sleep(5000);
 
     }
     @Then("validate user navigate to Customer Service Portal")
@@ -40,7 +41,12 @@ public class LoginPageSteps extends SeleniumUtility {
     @Then("validate error message {string}")
     public void validateErrorMessage(String expectedErrorMessage) {
         String actualErrorMessage = getElementText(LoginPageObject.ERROR_MESSAGE);
-        Assert.assertEquals("ERROR", actualErrorMessage);
+        Assert.assertEquals("ERROR", actualErrorMessage, expectedErrorMessage);
+    }
+
+    @Then("close browser")
+    public void closeBrowser() {
+        quitBrowser();
     }
 }
 

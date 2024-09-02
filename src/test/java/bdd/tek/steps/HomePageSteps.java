@@ -10,6 +10,7 @@ public class HomePageSteps extends SeleniumUtility {
     @Given("open browser and navigate to retail app")
     public void openBrowserAndNavigateToRetail_app() {
         openBrowser();
+
     }
     @Then("validate TEK Insurance UI is exist")
     public void validateTekInsuranceUiIsExist() {
@@ -27,19 +28,16 @@ public class HomePageSteps extends SeleniumUtility {
     }
     @Then("validate Login button is enabled")
     public void validateLoginButtonIsEnabled() {
-        boolean loginBtnText = isElementDisplayed(HomePageObject.LOGIN_BUTTON);
+        boolean loginBtnText = isElementIsEnabled(HomePageObject.LOGIN_BUTTON);
         Assert.assertTrue("Login button should be enabled", loginBtnText);
 
     }
     @Then("validate color mode button is displayed")
-    public void validateColorMoodButtonIsDisplayed() {
-        boolean colorModeOption = isElementDisplayed(HomePageObject.COLOR_MODE_BUTTON);
+    public void validateColorModeButtonIsDisplayed() {
+        boolean colorModeOption = isElementIsDisplayed(HomePageObject.COLOR_MOOD_BUTTON);
         Assert.assertTrue("Dark mode color button must be displayed", colorModeOption);
     }
-    @Then("close browser")
-    public void closeBrowser() {
-        quitBrowser();
-    }
 }
+
 
 
